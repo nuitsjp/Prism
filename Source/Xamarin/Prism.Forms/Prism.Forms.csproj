@@ -58,6 +58,9 @@
     <Compile Include="Behaviors\NavigationPageSystemGoBackBehavior.cs" />
     <Compile Include="Behaviors\TabbedPageActiveAwareBehavior.cs" />
     <Compile Include="Behaviors\MultiPageActiveAwareBehavior{T}.cs" />
+    <Compile Include="Common\EventDistributor.cs" />
+    <Compile Include="Common\EventToCommandDispatcher.cs" />
+    <Compile Include="Common\IEventDispatchable.cs" />
     <Compile Include="Navigation\IDestructible.cs" />
     <Compile Include="Navigation\INavigatedAware.cs" />
     <Compile Include="Navigation\INavigatingAware.cs" />
