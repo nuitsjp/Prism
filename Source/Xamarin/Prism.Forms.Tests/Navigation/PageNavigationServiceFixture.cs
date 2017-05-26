@@ -1288,6 +1288,44 @@ namespace Prism.Forms.Tests.Navigation
         }
 
         [Fact]
+        public async void DeepNavigate_ToEmptyMasterDetailPage_ToEmptyNavigationPage_ToContentPage()
+        {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage-Empty/ContentPage");
+
+            var masterDetail = applicationProvider.MainPage as MasterDetailPageEmptyMock;
+            Assert.NotNull(masterDetail);
+            Assert.NotNull(masterDetail.Detail);
+            Assert.IsType<NavigationPageEmptyMock>(masterDetail.Detail);
+            Assert.Equal(0, masterDetail.Navigation.ModalStack.Count);
+            Assert.Equal(0, masterDetail.Navigation.NavigationStack.Count);
+            Assert.Equal(0, masterDetail.Detail.Navigation.ModalStack.Count);
+            Assert.Equal(1, masterDetail.Detail.Navigation.NavigationStack.Count);
+            Assert.IsType<ContentPageMock>(masterDetail.Detail.Navigation.NavigationStack.Last());
+        }
+
+        [Fact]
+        public async void DeepNavigate_ToEmptyMasterDetailPage_ToNavigationPage_ToContentPage()
+        {
+            var applicationProvider = new ApplicationProviderMock(null);
+            var navigationService = new PageNavigationServiceMock(_container, applicationProvider, _loggerFacade);
+
+            await navigationService.NavigateAsync("MasterDetailPage-Empty/NavigationPage/PageMock");
+
+            var masterDetail = applicationProvider.MainPage as MasterDetailPageEmptyMock;
+            Assert.NotNull(masterDetail);
+            Assert.NotNull(masterDetail.Detail);
+            Assert.IsType<NavigationPageMock>(masterDetail.Detail);
+            Assert.Equal(0, masterDetail.Navigation.ModalStack.Count);
+            Assert.Equal(0, masterDetail.Navigation.NavigationStack.Count);
+            Assert.Equal(0, masterDetail.Detail.Navigation.ModalStack.Count);
+            Assert.Equal(1, masterDetail.Detail.Navigation.NavigationStack.Count);
+            Assert.IsType<PageMock>(masterDetail.Detail.Navigation.NavigationStack.Last());
+        }
+
+        [Fact]
         public async void DeepNavigate_ToMasterDetailPage_ToDifferentPage()
         {
             var navigationService = new PageNavigationServiceMock(_container, _applicationProvider, _loggerFacade);
